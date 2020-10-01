@@ -12,4 +12,9 @@
     <string name="cancel_new_lens">Cancel</string>
     <string name="add_activity_name">Lens Details</string>
     <string name="calculate_activity_name">Calculate DoF</string>
+    <string name="far_focal">Far Focal Distance :</string>
+    <string name="near_focal">Near Focal Distance :</string>
+    <string name="d_o_f">Depth of Field :</string>
+    <string name="hyperfocal">Hyperfocal Distance :</string>
+    <string name="cat">cat</string>
 </resources>
