@@ -14,6 +14,8 @@
     <string name="calculate_activity_name">Calculate DoF</string>
     <string name="far_focal">Far Focal Distance :</string>
     <string name="near_focal">Near Focal Distance :</string>
-    <string name="d_o_f">Depth of Field :</string>
+    <string name="d_o_f"> Depth of Field :</string>
     <string name="hyperfocal">Hyperfocal Distance :</string>
+    <string name="optional_features">Optional Features :\n3. Error Checking Input\n5. Save Data\n</string>
+    <string name="display_lens">Photo details with</string>
 </resources>

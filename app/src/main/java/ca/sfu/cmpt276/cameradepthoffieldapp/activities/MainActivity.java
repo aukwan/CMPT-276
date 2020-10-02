@@ -2,32 +2,28 @@ package ca.sfu.cmpt276.cameradepthoffieldapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ca.sfu.cmpt276.cameradepthoffieldapp.R;
-import ca.sfu.cmpt276.cameradepthoffieldapp.model.Lens;
 import ca.sfu.cmpt276.cameradepthoffieldapp.model.LensManager;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String ACTIVITY_EXTRA = "result";
+    private static final int ADD_LENS_CODE = 42;
     private LensManager manager;
-    private String[] lenses = new String[0];
+    private String[] lenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 String message = "Selected " + textView.getText().toString();
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                 Intent intent = CalculateDOF.makeIntent(MainActivity.this);
+                intent.putExtra("lens index", position);
                 startActivityForResult(intent, 43);
             }
         });
@@ -86,31 +83,27 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Adding new lens.", Toast.LENGTH_SHORT).show();
 
                 Intent intent = AddLens.makeIntent(MainActivity.this);
-                startActivity(intent);
+                startActivityForResult(intent, ADD_LENS_CODE);
             }
         });
     }
-
-
+    // Gets called when the add activity we started, finishes.
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ADD_LENS_CODE:
+                int answer = data.getIntExtra(ACTIVITY_EXTRA, 0);
+                if (answer == 1) {
+                    populateListView();
+                }
+                break;
+            case 43:
+                int answer2 = data.getIntExtra(ACTIVITY_EXTRA, 1);
+                if (answer2 == 1) {
+                    populateListView();
+                }
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

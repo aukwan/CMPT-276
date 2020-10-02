@@ -35,7 +35,7 @@ public class LensManager {
     public static LensManager getInstance() {
         if (instance == null) {
             instance = new LensManager();
-            // Add default lenses from Assignment 1 if empty
+            // Add sample lenses from Assignment 1 if empty
             instance.add(new Lens("Canon", 1.8, 50));
             instance.add(new Lens("Tamron", 2.8, 90));
             instance.add(new Lens("Sigma", 2.8, 200));
