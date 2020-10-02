@@ -5,7 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -42,7 +42,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/pick_lens"
         android:textSize="18sp"
@@ -51,23 +51,11 @@
 
     <ListView
         android:id="@+id/list_lenses"
-        android:layout_width="409dp"
-        android:layout_height="431dp"
+        android:layout_width="wrap_content"
+        android:layout_height="444dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="250dp"
-        android:layout_height="129dp"
-        android:layout_marginTop="2dp"
-        android:contentDescription="@string/cat"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/list_lenses"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/cat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

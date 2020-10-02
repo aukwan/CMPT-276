@@ -12,6 +12,7 @@ import java.util.List;
 public class LensManager {
     private List<Lens> lenses = new ArrayList<>();
 
+    // Normal Object Code
     public void add(Lens lens) {
         lenses.add(lens);
     }
@@ -24,4 +25,22 @@ public class LensManager {
         return lenses.size();
     }
 
+    // Singleton Support
+    private static LensManager instance;
+
+    private LensManager() {
+        // Private to prevent anyone else from instantiating
+    }
+
+    public static LensManager getInstance() {
+        if (instance == null) {
+            instance = new LensManager();
+            // Add default lenses from Assignment 1 if empty
+            instance.add(new Lens("Canon", 1.8, 50));
+            instance.add(new Lens("Tamron", 2.8, 90));
+            instance.add(new Lens("Sigma", 2.8, 200));
+            instance.add(new Lens("Nikon", 4, 200));
+        }
+        return instance;
+    }
 }
