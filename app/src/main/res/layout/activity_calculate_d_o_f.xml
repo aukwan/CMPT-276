@@ -2,9 +2,39 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.CalculateDOF">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintBottom_toTopOf="@+id/include2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/dof_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/content_calculate_d_o_f"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout4" />
 
     <View
         android:id="@+id/divider"
@@ -15,6 +45,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="207dp" />
 
     <TextView
         android:id="@+id/display_lenses"
@@ -41,81 +78,169 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="36dp"
         android:text="@string/near_focal"
         android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/near_focal_dist"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
+        android:layout_marginStart="50dp"
         android:text="@string/far_focal"
         android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView12"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/far_focal_dist"
+        app:layout_constraintEnd_toEndOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="86dp"
+        android:layout_marginStart="88dp"
         android:text="@string/d_o_f"
         android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView13"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/d_o_f"
+        app:layout_constraintEnd_toEndOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="36dp"
         android:text="@string/hyperfocal"
         android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/hyperfocal_dist"
+        app:layout_constraintEnd_toEndOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/textView11"
-        android:layout_width="208dp"
-        android:layout_height="36dp"
+    <TextView
+        android:id="@+id/near_focal_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/near_focal_result"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout4" />
 
-    <EditText
-        android:id="@+id/textView12"
-        android:layout_width="202dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+    <TextView
+        android:id="@+id/far_focal_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/far_focal_result"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/near_focal_dist" />
 
-    <EditText
-        android:id="@+id/textView13"
-        android:layout_width="203dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+    <TextView
+        android:id="@+id/d_o_f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/dof_result"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/far_focal_dist" />
 
-    <EditText
+    <TextView
+        android:id="@+id/hyperfocal_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/hyperfocal_result"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/d_o_f" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="199dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/c_o_c"
+        android:textAlignment="viewEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
         android:id="@+id/textView15"
-        android:layout_width="202dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
-        android:inputType="text"
-        android:textSize="14sp"
+        android:layout_width="199dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/subject_distance"
+        android:textAlignment="viewEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="165dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/selected_aperture"
+        android:textAlignment="viewEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <EditText
+        android:id="@+id/input_coc"
+        android:layout_width="196dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:inputType="numberSigned"
+        android:text="@string/default_coc"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor"/>
+
+    <EditText
+        android:id="@+id/input_distance"
+        android:layout_width="197dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:hint="@string/distance_hint"
+        android:importantForAutofill="no"
+        android:inputType="numberSigned"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+    <EditText
+        android:id="@+id/input_aperture"
+        android:layout_width="198dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:hint="@string/aperture_hint"
+        android:importantForAutofill="no"
+        android:inputType="numberSigned"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

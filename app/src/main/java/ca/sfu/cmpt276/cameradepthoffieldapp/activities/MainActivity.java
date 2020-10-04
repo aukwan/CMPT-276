@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String ACTIVITY_EXTRA = "result";
     private static final int ADD_LENS_CODE = 42;
+    private static final int CALCULATE_DOF_CODE = 43;
     private LensManager manager;
     private String[] lenses;
 
@@ -29,18 +30,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        
         populateListView();
         registerClickCallback();
         setupAddLensButton();
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
     }
 
     private void populateListView() {
-        // Create list of items
+        // Create list of lenses
         manager = LensManager.getInstance();
         int size = manager.getNumLenses();
         lenses = new String[size];
@@ -60,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         listLenses.setAdapter(adapter);
     }
 
+    // Allow user to launch Calculate activity by tapping a lens
     private void registerClickCallback() {
         ListView listLenses = (ListView) findViewById(R.id.list_lenses);
         listLenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,18 +75,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Floating action button for adding new lens
     private void setupAddLensButton() {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Adding new lens.", Toast.LENGTH_SHORT).show();
-
                 Intent intent = AddLens.makeIntent(MainActivity.this);
                 startActivityForResult(intent, ADD_LENS_CODE);
             }
         });
     }
+
     // Gets called when the add activity we started, finishes.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     populateListView();
                 }
                 break;
-            case 43:
+            case CALCULATE_DOF_CODE:
                 int answer2 = data.getIntExtra(ACTIVITY_EXTRA, 1);
                 if (answer2 == 1) {
                     populateListView();

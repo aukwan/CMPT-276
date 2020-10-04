@@ -16,6 +16,21 @@
     <string name="near_focal">Near Focal Distance :</string>
     <string name="d_o_f"> Depth of Field :</string>
     <string name="hyperfocal">Hyperfocal Distance :</string>
-    <string name="optional_features">Optional Features :\n3. Error Checking Input\n5. Save Data\n</string>
+    <string name="optional_features">Optional Features :\n1. App Bar Buttons\n3. Error Checking Input\n4. Auto-recalculate\n5. Save Data\n</string>
     <string name="display_lens">Photo details with</string>
+    <string name="near_focal_result">Enter all values</string>
+    <string name="far_focal_result">Enter all values</string>
+    <string name="dof_result">Enter all values</string>
+    <string name="hyperfocal_result">Enter all values</string>
+    <string name="distance_hint">ex. 1.5 for 1.5m</string>
+    <string name="aperture_hint">ex. 2.8 for F2.8</string>
+    <string name="selected_aperture">Selected aperture :</string>
+    <string name="subject_distance">Distance to subject [m] :</string>
+    <string name="c_o_c">Circle of Confusion [m] :</string>
+    <string name="default_coc">0.029</string>
+    <string name="title_activity_add_lens">AddLens</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_activity_calculate_d_o_f">CalculateDOF</string>
+    <string name="back_to_main">Back</string>
+
 </resources>
