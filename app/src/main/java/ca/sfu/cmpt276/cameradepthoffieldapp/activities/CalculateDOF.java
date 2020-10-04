@@ -1,25 +1,35 @@
 package ca.sfu.cmpt276.cameradepthoffieldapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import java.text.DecimalFormat;
 
 import ca.sfu.cmpt276.cameradepthoffieldapp.R;
+import ca.sfu.cmpt276.cameradepthoffieldapp.model.DepthOfFieldCalculator;
+import ca.sfu.cmpt276.cameradepthoffieldapp.model.Lens;
 import ca.sfu.cmpt276.cameradepthoffieldapp.model.LensManager;
 
 public class CalculateDOF extends AppCompatActivity {
 
-    private LensManager manager;
+    LensManager manager;
+    private int lensIndex;
     private double COC, distance, aperture;
-    private EditText inputCOC, inputDistance, inputAperture;
-    private double nearFocalDistance, farFocalDistance, hyperfocalDistance;
+    EditText inputCOC, inputDistance, inputAperture;
+    TextView nearFocalResult, farFocalResult, hyperfocalResult, dofResult;
+    private String nearFocalDistance, farFocalDistance, hyperfocalDistance, dof;
+    private boolean autoChanged = false;
     private static final String errorMsg = "Required valid values:" +
             "\nCircle of Confusion must be > 0" +
             "\nDistance to subject > 0" +
@@ -34,20 +44,72 @@ public class CalculateDOF extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        int index = intent.getIntExtra("lens index", 0);
+        lensIndex = intent.getIntExtra("lens index", 0);
         TextView displayLens = (TextView) findViewById(R.id.display_lenses);
         manager = LensManager.getInstance();
-        displayLens.setText(manager.getLensByIndex(index).toString());
+        displayLens.setText(manager.getLensByIndex(lensIndex).toString());
 
         inputCOC = (EditText) findViewById(R.id.input_coc);
         inputDistance = (EditText) findViewById(R.id.input_distance);
         inputAperture = (EditText) findViewById(R.id.input_aperture);
 
-        calculateDoF();
+        nearFocalResult = (TextView) findViewById(R.id.near_focal_dist);
+        farFocalResult = (TextView) findViewById(R.id.far_focal_dist);
+        hyperfocalResult = (TextView) findViewById(R.id.hyperfocal_dist);
+        dofResult = (TextView) findViewById(R.id.d_o_f);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                    calculateDoF(lensIndex);
+            }
+        };
+        inputCOC.addTextChangedListener(textWatcher);
+        inputDistance.addTextChangedListener(textWatcher);
+        inputAperture.addTextChangedListener(textWatcher);
+
     }
 
-    private void calculateDoF() {
+    private void calculateDoF(int index) {
+        if (!(inputCOC.getText().toString().isEmpty() ||
+                inputDistance.getText().toString().isEmpty() ||
+                inputAperture.getText().toString().isEmpty()) ) {
+            COC = Double.valueOf(inputCOC.getText().toString());
+            distance = Double.valueOf(inputDistance.getText().toString()) * 1000;
+            aperture = Double.valueOf(inputAperture.getText().toString());
 
+            if (COC <= 0 || distance <= 0 || aperture < 1.4) {
+                Toast.makeText(CalculateDOF.this, errorMsg, Toast.LENGTH_SHORT).show();
+            } else {
+                manager = LensManager.getInstance();
+                Lens selectedLens = manager.getLensByIndex(lensIndex);
+                DepthOfFieldCalculator calculator = new DepthOfFieldCalculator(selectedLens,
+                        distance,
+                        aperture,
+                        COC);
+                nearFocalDistance = formatM(calculator.getNearFocalPoint() / 1000);
+                farFocalDistance = formatM(calculator.getFarFocalPoint() / 1000);
+                hyperfocalDistance = formatM(calculator.getHyperFocalDistance() / 1000);
+                dof = formatM(calculator.getDepthOfField() / 1000);
+                nearFocalResult.setText(nearFocalDistance + "m");
+                farFocalResult.setText(farFocalDistance + "m");
+                hyperfocalResult.setText(hyperfocalDistance + "m");
+                dofResult.setText(dof + "m");
+            }
+        }
+    }
+
+    private String formatM(double distanceInM) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(distanceInM);
     }
 
     public static Intent makeIntent(Context context) {

@@ -1,8 +1,5 @@
 package ca.sfu.cmpt276.cameradepthoffieldapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import ca.sfu.cmpt276.cameradepthoffieldapp.R;
 import ca.sfu.cmpt276.cameradepthoffieldapp.model.Lens;
@@ -24,8 +22,8 @@ public class AddLens extends AppCompatActivity {
     private String make;
     private double focalLength;
     private double aperture;
-    private LensManager manager;
-    private EditText newMake, newFocalLength, newAperture;
+    LensManager manager;
+    EditText newMake, newFocalLength, newAperture;
     private static final String errorMsg = "Required valid values:" +
             "\nMake length is > 0" +
             "\nFocal length is > 0" +
@@ -87,11 +85,9 @@ public class AddLens extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case (R.id.add_lens_save):
-                return setupAddLens();
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.add_lens_save) {
+            return setupAddLens();
         }
+        return super.onOptionsItemSelected(item);
     }
 }

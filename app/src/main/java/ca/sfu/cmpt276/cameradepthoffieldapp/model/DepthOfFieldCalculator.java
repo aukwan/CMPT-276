@@ -5,15 +5,16 @@ package ca.sfu.cmpt276.cameradepthoffieldapp.model;
  */
 
 public class DepthOfFieldCalculator {
-    public static final double COC = 0.029; // "Circle of Confusion" for a "Full Frame" camera
     private Lens lens;
     private double distance;
     private double aperture;
+    private double COC;
 
-    public DepthOfFieldCalculator(Lens lens, double distance, double aperture) {
+    public DepthOfFieldCalculator(Lens lens, double distance, double aperture, double COC) {
         this.lens = lens;
         this.distance = distance;
         this.aperture = aperture;
+        this.COC = COC;
     }
 
     public double getHyperFocalDistance() {

@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTIVITY_EXTRA = "result";
     private static final int ADD_LENS_CODE = 42;
     private static final int CALCULATE_DOF_CODE = 43;
-    private LensManager manager;
-    private String[] lenses;
+    LensManager manager;
+    String[] lenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                 Intent intent = CalculateDOF.makeIntent(MainActivity.this);
                 intent.putExtra("lens index", position);
-                startActivityForResult(intent, 43);
+                startActivityForResult(intent, CALCULATE_DOF_CODE);
             }
         });
     }
@@ -88,23 +88,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Gets called when the add activity we started, finishes.
+    // Gets called when the activity we started, finishes.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case ADD_LENS_CODE:
-                int answer = data.getIntExtra(ACTIVITY_EXTRA, 0);
-                if (answer == 1) {
-                    populateListView();
-                }
-                break;
-            case CALCULATE_DOF_CODE:
-                int answer2 = data.getIntExtra(ACTIVITY_EXTRA, 1);
-                if (answer2 == 1) {
-                    populateListView();
-                }
-                break;
+        if (requestCode == ADD_LENS_CODE) {
+            int answer = data.getIntExtra(ACTIVITY_EXTRA, 0);
+            if (answer == 1) {
+                populateListView();
+            }
+        } else {
+            populateListView();
         }
     }
 }
