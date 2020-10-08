@@ -1,6 +1,7 @@
 package ca.sfu.cmpt276.cameradepthoffieldapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import ca.sfu.cmpt276.cameradepthoffieldapp.R;
+import ca.sfu.cmpt276.cameradepthoffieldapp.model.Lens;
 import ca.sfu.cmpt276.cameradepthoffieldapp.model.LensManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,8 +26,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTIVITY_EXTRA = "result";
     private static final int ADD_LENS_CODE = 42;
     private static final int CALCULATE_DOF_CODE = 43;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    public static final String PREF_NAME = "lensList";
     LensManager manager;
-    String[] lenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,31 +37,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        
+
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        retrieveLenses();
+
         populateListView();
         registerClickCallback();
         setupAddLensButton();
     }
 
     private void populateListView() {
-        // Create list of lenses
         manager = LensManager.getInstance();
-        int size = manager.getNumLenses();
-        lenses = new String[size];
-
-        for (int i = 0; i < size; i++) {
-            lenses[i] = manager.getLensByIndex(i).toString();
-        }
 
         // Build Adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        ArrayAdapter<Lens> adapter = new ArrayAdapter<>(
                 this,           // Context for the activity
                 R.layout.lens_list,     // Layout to use (create)
-                lenses);                //Items to be displayed
+                manager.getLenses());   //Items to be displayed
 
         // Configure the list view
         ListView listLenses = (ListView) findViewById(R.id.list_lenses);
         listLenses.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     // Allow user to launch Calculate activity by tapping a lens
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Gets called when the activity we started, finishes.
+    // Gets called when the add activity the user started, finishes.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -100,5 +103,32 @@ public class MainActivity extends AppCompatActivity {
         } else {
             populateListView();
         }
+    }
+
+    private void retrieveLenses() {
+        Gson gson = new Gson();
+        String serializedObject = sharedPreferences.getString("lenses", "");
+        if (serializedObject == null || serializedObject.equals("") || serializedObject.length() <= 0) {
+            manager = LensManager.getInstance();
+        } else {
+            manager = LensManager.retrieveLensList(gson.fromJson(serializedObject, LensManager.class));
+        }
+    }
+
+    private void saveLenses() {
+        Gson gson = new Gson();
+        String json;
+        if (manager.getNumLenses() > 0) {
+            json = gson.toJson(manager);
+        } else {
+            json = "";
+        }
+        editor.putString("lenses", json);
+        editor.commit();
+    }
+
+    public void onDestroy() {
+        saveLenses();
+        super.onDestroy();
     }
 }

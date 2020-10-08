@@ -60,12 +60,10 @@ public class CalculateDOF extends AppCompatActivity {
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -82,9 +80,9 @@ public class CalculateDOF extends AppCompatActivity {
         if (!(inputCOC.getText().toString().isEmpty() ||
                 inputDistance.getText().toString().isEmpty() ||
                 inputAperture.getText().toString().isEmpty()) ) {
-            COC = Double.valueOf(inputCOC.getText().toString());
-            distance = Double.valueOf(inputDistance.getText().toString()) * 1000;
-            aperture = Double.valueOf(inputAperture.getText().toString());
+            COC = Double.parseDouble(inputCOC.getText().toString());
+            distance = Double.parseDouble(inputDistance.getText().toString()) * 1000;
+            aperture = Double.parseDouble(inputAperture.getText().toString());
 
             if (COC <= 0 || distance <= 0 || aperture < 1.4) {
                 Toast.makeText(CalculateDOF.this, errorMsg, Toast.LENGTH_SHORT).show();

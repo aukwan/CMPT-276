@@ -22,12 +22,12 @@ public class AddLens extends AppCompatActivity {
     private String make;
     private double focalLength;
     private double aperture;
-    LensManager manager;
-    EditText newMake, newFocalLength, newAperture;
     private static final String errorMsg = "Required valid values:" +
             "\nMake length is > 0" +
             "\nFocal length is > 0" +
             "\nAperture (F) >= 1.4";
+    LensManager manager;
+    EditText newMake, newFocalLength, newAperture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class AddLens extends AppCompatActivity {
         newAperture = (EditText) findViewById(R.id.lens_aperture);
     }
 
+    // Configure the add lens button
     private boolean setupAddLens() {
         if (newMake.getText().toString().isEmpty() ||
                 newFocalLength.getText().toString().isEmpty() ||
@@ -52,8 +53,8 @@ public class AddLens extends AppCompatActivity {
             return false;
         } else {
             make = newMake.getText().toString();
-            focalLength = Double.valueOf(newFocalLength.getText().toString());
-            aperture = Double.valueOf(newAperture.getText().toString());
+            focalLength = Double.parseDouble(newFocalLength.getText().toString());
+            aperture = Double.parseDouble(newAperture.getText().toString());
 
             if (make.length() <= 0 || focalLength <= 0 || aperture < 1.4){
                 Toast.makeText(AddLens.this, errorMsg, Toast.LENGTH_SHORT).show();
