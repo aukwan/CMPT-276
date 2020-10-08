@@ -22,18 +22,16 @@ import ca.sfu.cmpt276.cameradepthoffieldapp.model.Lens;
 import ca.sfu.cmpt276.cameradepthoffieldapp.model.LensManager;
 
 public class CalculateDOF extends AppCompatActivity {
-
-    LensManager manager;
     private int lensIndex;
     private double COC, distance, aperture;
-    EditText inputCOC, inputDistance, inputAperture;
-    TextView nearFocalResult, farFocalResult, hyperfocalResult, dofResult;
     private String nearFocalDistance, farFocalDistance, hyperfocalDistance, dof;
-    private boolean autoChanged = false;
     private static final String errorMsg = "Required valid values:" +
             "\nCircle of Confusion must be > 0" +
             "\nDistance to subject > 0" +
             "\nSelected aperture (F) >= 1.4";
+    LensManager manager;
+    EditText inputCOC, inputDistance, inputAperture;
+    TextView nearFocalResult, farFocalResult, hyperfocalResult, dofResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +68,19 @@ public class CalculateDOF extends AppCompatActivity {
                     calculateDoF(lensIndex);
             }
         };
+
         inputCOC.addTextChangedListener(textWatcher);
         inputDistance.addTextChangedListener(textWatcher);
         inputAperture.addTextChangedListener(textWatcher);
 
     }
 
+    // Displays calculated focal distances and depth of field values
     private void calculateDoF(int index) {
         if (!(inputCOC.getText().toString().isEmpty() ||
                 inputDistance.getText().toString().isEmpty() ||
-                inputAperture.getText().toString().isEmpty()) ) {
+                inputAperture.getText().toString().isEmpty()) )
+        {
             COC = Double.parseDouble(inputCOC.getText().toString());
             distance = Double.parseDouble(inputDistance.getText().toString()) * 1000;
             aperture = Double.parseDouble(inputAperture.getText().toString());
@@ -88,7 +89,7 @@ public class CalculateDOF extends AppCompatActivity {
                 Toast.makeText(CalculateDOF.this, errorMsg, Toast.LENGTH_SHORT).show();
             } else {
                 manager = LensManager.getInstance();
-                Lens selectedLens = manager.getLensByIndex(lensIndex);
+                Lens selectedLens = manager.getLensByIndex(index);
                 DepthOfFieldCalculator calculator = new DepthOfFieldCalculator(selectedLens,
                         distance,
                         aperture,
@@ -105,6 +106,7 @@ public class CalculateDOF extends AppCompatActivity {
         }
     }
 
+    // Formats focal distances and depth of field values to two decimal places and then into strings.
     private String formatM(double distanceInM) {
         DecimalFormat df = new DecimalFormat("0.00");
         return df.format(distanceInM);
@@ -114,6 +116,7 @@ public class CalculateDOF extends AppCompatActivity {
         return new Intent(context, CalculateDOF.class);
     }
 
+    // Generates the back button on app bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

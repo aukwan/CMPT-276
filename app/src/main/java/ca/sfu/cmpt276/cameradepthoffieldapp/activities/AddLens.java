@@ -18,7 +18,6 @@ import ca.sfu.cmpt276.cameradepthoffieldapp.model.Lens;
 import ca.sfu.cmpt276.cameradepthoffieldapp.model.LensManager;
 
 public class AddLens extends AppCompatActivity {
-
     private String make;
     private double focalLength;
     private double aperture;
@@ -77,6 +76,7 @@ public class AddLens extends AppCompatActivity {
         return new Intent(context, AddLens.class);
     }
 
+    // Generates the back and save button on app bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -84,6 +84,7 @@ public class AddLens extends AppCompatActivity {
         return true;
     }
 
+    // Gets called when user presses the SAVE button in app bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.add_lens_save) {

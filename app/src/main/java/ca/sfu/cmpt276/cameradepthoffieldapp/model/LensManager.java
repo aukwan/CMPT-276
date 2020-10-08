@@ -6,18 +6,8 @@ package ca.sfu.cmpt276.cameradepthoffieldapp.model;
   and calculating the number of lenses.
  */
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import ca.sfu.cmpt276.cameradepthoffieldapp.activities.MainActivity;
 
 public class LensManager {
     private List<Lens> lenses = new ArrayList<>();
@@ -58,6 +48,7 @@ public class LensManager {
         return instance;
     }
 
+    // Called when app attempts to restore saved lens list
     public static LensManager retrieveLensList(LensManager fromJson) {
         if (instance == null) {
             instance = fromJson;

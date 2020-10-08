@@ -22,13 +22,11 @@ import ca.sfu.cmpt276.cameradepthoffieldapp.model.Lens;
 import ca.sfu.cmpt276.cameradepthoffieldapp.model.LensManager;
 
 public class MainActivity extends AppCompatActivity {
-
     public static final String ACTIVITY_EXTRA = "result";
     private static final int ADD_LENS_CODE = 42;
     private static final int CALCULATE_DOF_CODE = 43;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    public static final String PREF_NAME = "lensList";
     LensManager manager;
 
     @Override
@@ -47,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setupAddLensButton();
     }
 
+    // Fill ListView with lenses
     private void populateListView() {
         manager = LensManager.getInstance();
 
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Gets the saved lens list through SharedPreferences
     private void retrieveLenses() {
         Gson gson = new Gson();
         String serializedObject = sharedPreferences.getString("lenses", "");
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Saves lens list through SharedPreferences
     private void saveLenses() {
         Gson gson = new Gson();
         String json;
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    // Get called when the app is finished and destroyed
     public void onDestroy() {
         saveLenses();
         super.onDestroy();
